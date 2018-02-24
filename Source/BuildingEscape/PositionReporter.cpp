@@ -20,8 +20,12 @@ void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FString ObjectName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("Position Reporter reporting for %s"), *ObjectName);
+	AActor* Object = GetOwner();// Get Object pointer
+	FString ObjectName = Object->GetName();
+	FTransform ObjectTransform = Object->GetTransform();
+	FString ObjectPosString = ObjectTransform.GetLocation().ToString();
+
+	UE_LOG(LogTemp, Warning, TEXT("%s is at %s"), *ObjectName, *ObjectPosString); // Log Object name and location
 	// ...
 	
 }
