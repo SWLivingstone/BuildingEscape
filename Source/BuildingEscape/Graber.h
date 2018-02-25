@@ -38,6 +38,12 @@ private:
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* InputComponent = nullptr;
 
+	struct LineTrace {
+		FVector End;
+		FVector PlayerLocation;
+		FRotator PlayerRotation;
+	};
+
 	// Find attached physics handle
 	void FindPhysicsHandleComponent();
 
@@ -52,4 +58,7 @@ private:
 
 	// Release held item.  Called when grab key is released
 	void Release();
+
+	// Get the end of the line trace
+	LineTrace GetLineTrace();
 };
