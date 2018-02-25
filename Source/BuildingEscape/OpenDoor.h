@@ -29,6 +29,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
+	float GetTotalMassOfActorsOnPlayer();
+
 	UPROPERTY(VisibleAnywhere)
 		float OpenAngle = 90.f;
 
@@ -37,9 +39,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		float DoorCloseDelay = 1.f;
-
-	UPROPERTY(VisibleAnywhere)
-		AActor* ActorThatOpens;
+	
+	UPROPERTY(EditAnywhere)
+		float TriggerMass = 50.f;
 
 	float LastDoorOpenTime;
 
