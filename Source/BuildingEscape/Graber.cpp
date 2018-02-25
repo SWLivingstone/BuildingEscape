@@ -6,15 +6,11 @@
 #include "DrawDebugHelpers.h"
 #include "Components/PrimitiveComponent.h"
 #include "Color.h"
-
-
 #define OUT
 
 // Sets default values for this component's properties
 UGraber::UGraber()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
@@ -23,8 +19,7 @@ UGraber::UGraber()
 void UGraber::BeginPlay()
 {
 	Super::BeginPlay();
-	Controller = World->GetFirstPlayerController();
-	
+	Controller = World->GetFirstPlayerController();	
 	FindPhysicsHandleComponent();
 	SetupInputComponent();
 }
@@ -33,10 +28,7 @@ void UGraber::BeginPlay()
 void UGraber::FindPhysicsHandleComponent()
 {
 	PhysicsHandle = Owner->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle != NULL)
-	{
-	}
-	else
+	if (PhysicsHandle == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("UPhysicsHAndleComponent is NOT attached to %s"), *Owner->GetName());
 	}
@@ -60,8 +52,6 @@ void UGraber::SetupInputComponent()
 
 void UGraber::Grab()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grab pressed!"));
-
 	/// Try and reach any actors with phsics body collision channel set
 	FHitResult HitResult = GetFirstPhysicsBodyInReach();
 	UPrimitiveComponent* ComponentToGrab = HitResult.GetComponent();
@@ -77,24 +67,19 @@ void UGraber::Grab()
 			true // allow rotation
 		);
 	}
-	
 }
 
 void UGraber::Release()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grab released!"));
 	PhysicsHandle->ReleaseComponent();
 }
 
 UGraber::LineTrace UGraber::GetLineTrace()
 {
 	LineTrace CurrentLineTrace;
-
-	FVector PlayerViewPointLocation;
-	FRotator PlayerViewPointRotation;
 	/// Sets the player location to the above variables.  The function does NOT return anything.
 	Controller->GetPlayerViewPoint(OUT CurrentLineTrace.PlayerLocation, OUT CurrentLineTrace.PlayerRotation);
-
+	/// Calcualtes the line-trace end
 	CurrentLineTrace.End = CurrentLineTrace.PlayerLocation + (CurrentLineTrace.PlayerRotation.Vector() * Reach);
 
 	return CurrentLineTrace;
@@ -135,9 +120,8 @@ void UGraber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponen
 	// if the physics handle is attached
 	if (PhysicsHandle->GrabbedComponent)
 	{
+		/// Moves the object
 		PhysicsHandle->SetTargetLocation(GetLineTrace().End);
 	}
-		// move the object
-
 }
 
