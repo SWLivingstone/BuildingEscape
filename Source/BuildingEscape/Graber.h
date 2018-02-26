@@ -28,7 +28,7 @@ public:
 
 private:
 	AActor* Owner = GetOwner();
-	APlayerController* Controller;
+	APlayerController* Controller = nullptr;
 	UWorld* World = GetWorld();
 
 	// How far the player can reacy
